@@ -41,7 +41,6 @@ class scale_generator:
 
     def scale(self):
         notes = scale_generator.notes
-        key = self.key
         root = self.root
         pattern = self.pattern
         try:
@@ -127,7 +126,6 @@ class chord_shape:
         elif 'sus2' in values[1]:
             second = position.index(scale[1])
             chord[1] = position[second]
-            #print('sus2')
             return chord                
 
         elif 'sus4' in values[1]:
@@ -149,7 +147,6 @@ class chord_shape:
                 chord.append(maj_7)
             elif '9' in var:
                 chord = chord + [maj_7, maj_9]
-                #print('maj9')
             elif '11' in var:
                 chord = chord + [maj_7, maj_9, maj_11]
             else:
@@ -161,7 +158,6 @@ class chord_shape:
             chord = [scale[0], flat_3, scale[4]]  
 
             if values[1] is 'm':
-                #print('m')
                 return chord
             else:
                 if '6' in var:
@@ -171,16 +167,13 @@ class chord_shape:
                         chord.append(flat_7)
                     elif 'add9' in var:
                         chord.append(maj_9)
-                        #print('madd9')
                         return chord
                     elif '9' in var:
-                        #print('m9')
                         chord = chord + [flat_7, maj_9]
                     elif '11' in var:
                         chord = chord + [flat_7, maj_9, maj_11]                       
                     else:
                         chord = chord + [flat_7, maj_9, maj_11, maj_13]
-                        #print('m13')
             return chord
             
         elif '7' in values[1]:
@@ -212,6 +205,7 @@ class chord_shape:
 class chord_sequencer:
     major_sequence = ['', ' m', ' m', '','',' m', ' dim']
     tenessee_sequence = ['', ' m', ' 7', '', ' 7', ' 6', '']
+    pop_sequence = ['', ' m', ' 7', '', ' 7', ' m', '']
     pentatonic_major = ['', ' m', '', ]
     minor_sequence = [' m', ' dim', '', ' m', ' m', '', '']
     pentatonic_minor = [' m', '', ' m', ' m', '']
@@ -221,11 +215,11 @@ class chord_sequencer:
     blues_sequence = [' maj7', ' m7', ' m7', ' 7', ' 7', ' m7', ' dim7']
 
     all_sequences = {'major': major_sequence, 'major_pentatonic': pentatonic_major, 'minor': minor_sequence, 'minor_pentatonic': pentatonic_minor,\
-        'lydian': lydian_sequence, 'dorian': dorian_sequence, 'mixolydian': mixolydian_sequence, 'blues': blues_sequence, 'tenessee': tenessee_sequence}
+        'lydian': lydian_sequence, 'dorian': dorian_sequence, 'mixolydian': mixolydian_sequence, 'blues': blues_sequence, 'tenessee': tenessee_sequence, 'pop' : pop_sequence}
         
-    keys = ['major', 'major_pentatonic', 'minor', 'minor_pentatonic', 'blues', 'dorian', 'mixolydian', 'lydian', 'locrian', 'tenessee']
+    keys = ['major', 'major_pentatonic', 'minor', 'minor_pentatonic', 'blues', 'dorian', 'mixolydian', 'lydian', 'locrian', 'tenessee', 'pop']
 
-    def __init__(self, scale = None):
+    def __init__(self, scale):
         try:
             self.scale = scale.scale()
             self.key = scale.key
@@ -282,6 +276,7 @@ class all_sequences:
 
     major_sequence = ['', ' m', ' m', '','',' m', ' dim']
     tenessee_sequence = ['', ' m', ' 7', '', ' 7', ' 6', '']
+    pop_sequence = ['', ' m', ' 7', '', ' 7', ' m', '']
     pentatonic_major = ['', ' m', '', ]
     minor_sequence = [' m', ' dim', '', ' m', ' m', '', '']
     pentatonic_minor = [' m', '', ' m', ' m', '']
@@ -291,7 +286,7 @@ class all_sequences:
     blues_sequence = [' maj7', ' m7', ' m7', ' 7', ' 7', ' m7', ' dim7']
 
     all_sequences = {'major': major_sequence, 'pentatonic_major': pentatonic_major, 'minor': minor_sequence, 'pentatonic_minor': pentatonic_minor,\
-        'lydian': lydian_sequence, 'dorian': dorian_sequence, 'mixolydian': mixolydian_sequence, 'blues': blues_sequence, 'tenessee': tenessee_sequence}
+        'lydian': lydian_sequence, 'dorian': dorian_sequence, 'mixolydian': mixolydian_sequence, 'blues': blues_sequence, 'tenessee': tenessee_sequence, 'pop': pop_sequence}
     
     all_scales = {}
     for note in notes:
@@ -328,10 +323,3 @@ circle = [1,4,5,1]
 blues_progression = [1,1,1,1,4,4,1,1,5,4,1,1]
 jazz_basic = [2,5,1]
 
-database = all_sequences.all_scales['C']['C major']
-
-chords = ['E', 'A', 'D']
-
-possible_scales = scale_detective(chords).scale_matches()
-
-print(possible_scales)
